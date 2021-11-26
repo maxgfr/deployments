@@ -45,11 +45,11 @@ inputs:
   no_override:
     required: false
     description: Whether to mark existing deployments of this environment as inactive
-    default: 'true'
+    default: "true"
   log_args:
     required: false
     description: Print arguments used by this action.
-    default: 'false'
+    default: "false"
   repository:
     required: false
     description: Set status for a different repository, using the format `$owner/$repository` (optional, defaults to the current repository)
