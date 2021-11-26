@@ -23,8 +23,8 @@
     "@actions/github": "5.0.0"
   },
   "devDependencies": {
+    "@types/node": "^12.20.15",
     "@vercel/ncc": "0.28.6",
-    "@types/node": "12.20.15",
     "husky": "^7.0.0",
     "prettier": "2.3.1",
     "pretty-quick": "^3.1.2",
