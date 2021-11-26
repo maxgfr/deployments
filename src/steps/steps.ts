@@ -191,22 +191,22 @@ export async function run(step: Step, context: DeploymentContext) {
         {
           const args = {
             ...context.coreArgs,
-            environment: getInput("env", { required: true }),
-            deployments: getInput("deployments", { required: false }),
+            environment: getInput("env", { required: false }),
+            environments: getInput("envs", { required: false }),
           };
 
           if (args.logArgs) {
             console.log(`'${step}' arguments`, args);
           }
 
-          const isMulti = args.deployments && args.deployments.length > 1;
+          const isMulti = args.environments && args.environments.length > 1;
 
           if (isMulti) {
-            const deployments = JSON.parse(args.deployments);
+            const envs = JSON.parse(args.environments);
             const promises: any = [];
 
-            deployments.map((deployment: any) => {
-              promises.push(deactivateEnvironment(context, deployment.data.id));
+            envs.map((env: any) => {
+              promises.push(deactivateEnvironment(context, env));
             });
 
             try {

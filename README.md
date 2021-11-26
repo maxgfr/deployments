@@ -3,11 +3,12 @@
 `bobheadxi/deployments` is a [GitHub Action](https://github.com/features/actions) for working painlessly with deployment statuses.
 Instead of exposing convoluted Action configuration that mirrors that of the [GitHub API](https://developer.github.com/v3/repos/deployments/) like some of the other available Actions do, this Action simply exposes a number of configurable, easy-to-use "steps" common to most deployment flows.
 
-- [Features](#features)
-  - [`step: start`](#step-start)
-  - [`step: finish`](#step-finish)
-  - [`step: deactivate-env`](#step-deactivate-env)
-- [Debugging](#debugging)
+- [GitHub Deployments ![View Action](https://bobheadxi.dev/r/deployments/)](#github-deployments-)
+  - [Features](#features)
+    - [`step: start`](#step-start)
+    - [`step: finish`](#step-finish)
+    - [`step: deactivate-env`](#step-deactivate-env)
+  - [Debugging](#debugging)
 
 A simple example:
 
@@ -70,6 +71,7 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 | `logs`          | URL to GitHub commit checks | URL of your deployment logs                                                                         |
 | `desc`          |                             | description for this deployment                                                                     |
 | `env`           |                             | identifier for environment to deploy to (e.g. `staging`, `prod`, `master`)                          |
+| `envs`          |                             | array for the environments to deploy, use it for **multi-deployments** (e.g. `["env_a", "env_b"]`)  |
 | `no_override`   | `true`                      | toggle whether to mark existing deployments of this environment as inactive                         |
 | `deployment_id` |                             | Use an existing deployment instead of creating a new one (e.g. `${{ github.event.deployment.id }}`) |
 | `ref`           | `github.ref`                | Specify a particular git ref to use, (e.g. `${{ github.head_ref }}`)                                |
@@ -149,15 +151,16 @@ This is best used after `step: start` and should follow whatever deployment task
 
 The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepswith) are available:
 
-| Variable        | Default                     | Purpose                                                                           |
-| --------------- | --------------------------- | --------------------------------------------------------------------------------- |
-| `step`          |                             | must be `finish` for this step                                                    |
-| `token`         |                             | provide your `${{ secrets.GITHUB_TOKEN }}` for API access                         |
-| `logs`          | URL to GitHub commit checks | URL of your deployment logs                                                       |
-| `desc`          |                             | description for this deployment                                                   |
-| `status`        |                             | provide the current deployment job status `${{ job.status }}`                     |
-| `deployment_id` |                             | identifier for deployment to update (see outputs of [`step: start`](#step-start)) |
-| `env_url`       |                             | URL to view deployed environment                                                  |
+| Variable        | Default                     | Purpose                                                                                                                                                                            |
+| --------------- | --------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `step`          |                             | must be `finish` for this step                                                                                                                                                     |
+| `token`         |                             | provide your `${{ secrets.GITHUB_TOKEN }}` for API access                                                                                                                          |
+| `logs`          | URL to GitHub commit checks | URL of your deployment logs                                                                                                                                                        |
+| `desc`          |                             | description for this deployment                                                                                                                                                    |
+| `status`        |                             | provide the current deployment job status `${{ job.status }}`                                                                                                                      |
+| `deployment_id` |                             | identifier for deployment to update (see outputs of [`step: start`](#step-start))                                                                                                  |
+| `deployments`   |                             | array generated by start action containing id of the deployments and their associated environments, use it for **multi-deployments** (see outputs of [`step: start`](#step-start)) |
+| `env_url`       |                             | URL to view deployed environment                                                                                                                                                   |
 
 <details>
 <summary>Simple Example</summary>
@@ -199,13 +202,14 @@ This step can be used to automatically shut down deployments you create on pull 
 
 The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for-github-actions#jobsjob_idstepswith) are available:
 
-| Variable | Default                     | Purpose                                                                    |
-| -------- | --------------------------- | -------------------------------------------------------------------------- |
-| `step`   |                             | must be `deactivate-env` for this step                                     |
-| `token`  |                             | provide your `${{ secrets.GITHUB_TOKEN }}` for API access                  |
-| `logs`   | URL to GitHub commit checks | URL of your deployment logs                                                |
-| `desc`   |                             | description for this deployment                                            |
-| `env`    |                             | identifier for environment to deploy to (e.g. `staging`, `prod`, `master`) |
+| Variable | Default                     | Purpose                                                                                            |
+| -------- | --------------------------- | -------------------------------------------------------------------------------------------------- |
+| `step`   |                             | must be `deactivate-env` for this step                                                             |
+| `token`  |                             | provide your `${{ secrets.GITHUB_TOKEN }}` for API access                                          |
+| `logs`   | URL to GitHub commit checks | URL of your deployment logs                                                                        |
+| `desc`   |                             | description for this deployment                                                                    |
+| `env`    |                             | identifier for environment to deploy to (e.g. `staging`, `prod`, `master`)                         |
+| `envs`   |                             | array for the environments to deploy, use it for **multi-deployments** (e.g. `["env_a", "env_b"]`) |
 
 <details>
 <summary>Simple Example</summary>
