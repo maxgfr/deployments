@@ -78,10 +78,12 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 
 The following [`outputs`](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions#steps-context) are available:
 
-| Variable        | Purpose                         |
-| --------------- | ------------------------------- |
-| `deployment_id` | ID of created GitHub deployment |
-| `env`           | name of configured environment  |
+| Variable        | Purpose                                            |
+| --------------- | -------------------------------------------------- |
+| `deployment_id` | ID of created GitHub deployment if `env` is used   |
+| `deployments`   | ID of created GitHub deployments if `envs` is used |
+| `env`           | name of configured environment                     |
+| `envs`          | name of configured environments used in parameters |
 
 <details>
 <summary>Simple Push Example</summary>
