@@ -6,7 +6,7 @@
   "main": "dist/index.js",
   "scripts": {
     "prepare": "husky install",
-    "pretty-quick": "pretty-quick --staged",
+    "pretty-quick": "pretty-quick src --staged",
     "build": "ncc build src/main.ts --out dist --minify --source-map --license LICENSES",
     "prettier": "prettier src --write",
     "prettier:check": "prettier src --check",
