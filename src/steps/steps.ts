@@ -114,7 +114,7 @@ export async function run(step: Step, context: DeploymentContext) {
           const args = {
             ...context.coreArgs,
             status: getInput("status", { required: true }).toLowerCase(),
-            deployments: getInput("deployments", { required: true }),
+            deployments: getInput("deployments", { required: false }),
             deploymentID: getInput("deployment_id", { required: false }),
             envURL: getInput("env_url", { required: false }),
           };
