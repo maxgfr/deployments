@@ -8066,20 +8066,18 @@ require("./sourcemap-register.js");
             case r.DeactivateEnv:
               {
                 const t = Object.assign(Object.assign({}, a.coreArgs), {
-                  environment: (0, e.getInput)("env", { required: true }),
-                  deployments: (0, e.getInput)("deployments", {
-                    required: false,
-                  }),
+                  environment: (0, e.getInput)("env", { required: false }),
+                  environments: (0, e.getInput)("envs", { required: false }),
                 });
                 if (t.logArgs) {
                   console.log(`'${p}' arguments`, t);
                 }
-                const r = t.deployments && t.deployments.length > 1;
+                const r = t.environments && t.environments.length > 1;
                 if (r) {
-                  const p = JSON.parse(t.deployments);
+                  const p = JSON.parse(t.environments);
                   const r = [];
                   p.map((e) => {
-                    r.push(d(a, e.data.id));
+                    r.push(d(a, e));
                   });
                   try {
                     yield Promise.all(r);
