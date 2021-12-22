@@ -5,11 +5,10 @@
   "description": "GitHub Action for working painlessly with deployment statuses",
   "main": "dist/index.js",
   "scripts": {
-    "prepare": "husky install",
     "build": "ncc build src/main.ts --out dist --minify --source-map --license LICENSES",
+    "build:check": "npm run build && git diff --quiet dist",
     "prettier": "prettier src --write",
-    "prettier:check": "prettier src --check",
-    "build:check": "npm run build && git diff --quiet dist"
+    "prettier:check": "prettier src --check"
   },
   "repository": {
     "type": "git",
@@ -24,12 +23,7 @@
   "devDependencies": {
     "@types/node": "^12.20.15",
     "@vercel/ncc": "0.28.6",
-    "husky": "^7.0.0",
-    "lint-staged": "^12.1.2",
     "prettier": "2.3.1",
     "typescript": "4.3.2"
-  },
-  "lint-staged": {
-    "*.{ts}": "npm run prettier --fix"
   }
 }
