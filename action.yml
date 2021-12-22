@@ -50,6 +50,9 @@ inputs:
     required: false
     description: Print arguments used by this action.
     default: 'false'
+  is_multi:
+    required: false
+    description: It defines if it is a multi deployment or not.
   repository:
     required: false
     description: Set status for a different repository, using the format `$owner/$repository` (optional, defaults to the current repository)
