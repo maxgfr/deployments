@@ -20,7 +20,7 @@ export async function run(step: Step, context: DeploymentContext) {
             noOverride: getInput("no_override") !== "false",
             transient: getInput("transient") === "true",
             gitRef: getInput("ref") || context.ref,
-            isMulti: getInput("is_multi") === "true",
+            isMulti: getInput("is_multi", { required: false }) === "true",
           };
 
           if (args.logArgs) {
@@ -114,7 +114,7 @@ export async function run(step: Step, context: DeploymentContext) {
             status: getInput("status", { required: true }).toLowerCase(),
             deploymentID: getInput("deployment_id", { required: true }),
             envURL: getInput("env_url", { required: false }),
-            isMulti: getInput("is_multi") === "true",
+            isMulti: getInput("is_multi", { required: false }) === "true",
           };
 
           if (args.logArgs) {
@@ -129,9 +129,12 @@ export async function run(step: Step, context: DeploymentContext) {
             error(`unexpected status ${args.status}`);
             return;
           }
-          console.log(
-            `finishing deployment for ${args.deploymentID} with status ${args.status}`
-          );
+
+          if (args.logArgs) {
+            console.log(
+              `finishing deployment for ${args.deploymentID} with status ${args.status}`
+            );
+          }
 
           const newStatus =
             args.status === "cancelled" ? "inactive" : args.status;
@@ -184,7 +187,7 @@ export async function run(step: Step, context: DeploymentContext) {
           const args = {
             ...context.coreArgs,
             environment: getInput("env", { required: false }),
-            isMulti: getInput("is_multi") === "true",
+            isMulti: getInput("is_multi", { required: false }) === "true",
           };
 
           if (args.logArgs) {
