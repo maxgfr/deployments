@@ -35,16 +35,12 @@ export async function run(step: Step, context: DeploymentContext) {
             environments = [args.environment];
           }
 
-
           const promises: any = [];
           const deactivatePromises: any = [];
           for (let i = 0; i < environments.length; i++) {
             if (!args.noOverride) {
               deactivatePromises.push(
-                deactivateEnvironment(
-                  context,
-                  environments[i]
-                )
+                deactivateEnvironment(context, environments[i])
               );
             }
             promises.push(
@@ -93,17 +89,17 @@ export async function run(step: Step, context: DeploymentContext) {
 
           try {
             await Promise.all(secondPromises);
-              setOutput(
-                "deployment_id",
-                args.isMulti ?
-                JSON.stringify(
-                  deploymentsData.map((deployment: any, index: number) => ({
-                    ...deployment,
-                    url: environments[index],
-                  }))
-                ) : 
-                deploymentsData[0].data.id
-              );
+            setOutput(
+              "deployment_id",
+              args.isMulti
+                ? JSON.stringify(
+                    deploymentsData.map((deployment: any, index: number) => ({
+                      ...deployment,
+                      url: environments[index],
+                    }))
+                  )
+                : deploymentsData[0].data.id
+            );
             setOutput("env", args.environment);
           } catch (e) {
             error("Cannot generate deployment status");
@@ -146,7 +142,7 @@ export async function run(step: Step, context: DeploymentContext) {
             deployments = JSON.parse(args.deploymentID);
           } else {
             deployments = [args.deploymentID];
-          }  
+          }
 
           const promises: any = [];
 
@@ -155,22 +151,26 @@ export async function run(step: Step, context: DeploymentContext) {
               github.rest.repos.createDeploymentStatus({
                 owner: context.owner,
                 repo: context.repo,
-                deployment_id: args.isMulti ? parseInt(deployment.data.id, 10) : parseInt(deployment, 10),
+                deployment_id: args.isMulti
+                  ? parseInt(deployment.data.id, 10)
+                  : parseInt(deployment, 10),
                 auto_inactive: args.autoInactive,
                 state: newStatus,
                 description: args.description,
                 environment_url:
-                  newStatus === "success" && args.isMulti ? `${deployment.url}` : newStatus === "success" ? args.envURL : "",
+                  newStatus === "success" && args.isMulti
+                    ? `${deployment.url}`
+                    : newStatus === "success"
+                    ? args.envURL
+                    : "",
                 log_url: args.logsURL,
               })
             );
           });
 
           try {
-            if(args.logArgs) {
-              console.log(
-                `finishing deployment with status ${args.status}`
-              );
+            if (args.logArgs) {
+              console.log(`finishing deployment with status ${args.status}`);
             }
             await Promise.all(promises);
           } catch (e) {
@@ -209,7 +209,6 @@ export async function run(step: Step, context: DeploymentContext) {
           } catch (e) {
             error("Cannot deactivate deployment status");
           }
-
         }
         break;
 
