@@ -71,7 +71,6 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 | `logs`          | URL to GitHub commit checks | URL of your deployment logs                                                                         |
 | `desc`          |                             | description for this deployment                                                                     |
 | `env`           |                             | identifier for environment to deploy to (e.g. `staging`, `prod`, `master`)                          |
-| `envs`          |                             | array for the environments to deploy, use it for **multi-deployments** (e.g. `["env_a", "env_b"]`)  |
 | `no_override`   | `true`                      | toggle whether to mark existing deployments of this environment as inactive                         |
 | `deployment_id` |                             | Use an existing deployment instead of creating a new one (e.g. `${{ github.event.deployment.id }}`) |
 | `ref`           | `github.ref`                | Specify a particular git ref to use, (e.g. `${{ github.head_ref }}`)                                |
@@ -81,9 +80,7 @@ The following [`outputs`](https://help.github.com/en/actions/automating-your-wor
 | Variable        | Purpose                                            |
 | --------------- | -------------------------------------------------- |
 | `deployment_id` | ID of created GitHub deployment if `env` is used   |
-| `deployments`   | ID of created GitHub deployments if `envs` is used |
 | `env`           | name of configured environment                     |
-| `envs`          | name of configured environments used in parameters |
 
 <details>
 <summary>Simple Push Example</summary>
@@ -211,7 +208,6 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 | `logs`   | URL to GitHub commit checks | URL of your deployment logs                                                                        |
 | `desc`   |                             | description for this deployment                                                                    |
 | `env`    |                             | identifier for environment to deploy to (e.g. `staging`, `prod`, `master`)                         |
-| `envs`   |                             | array for the environments to deploy, use it for **multi-deployments** (e.g. `["env_a", "env_b"]`) |
 
 <details>
 <summary>Simple Example</summary>
