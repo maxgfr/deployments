@@ -26,9 +26,15 @@ export async function run(step: Step, context: DeploymentContext) {
             console.log(`'${step}' arguments`, args);
           }
 
-          const environments = args.environment.split(",");
+          let environments;
 
-          const isMulti = environments.length > 1;
+          const isMulti = args.environment.split(",").length > 1;
+
+          if (isMulti) {
+            environments = JSON.parse(args.environment);
+          } else {
+            environments = [args.environment];
+          }
 
           const promises: any = [];
           const deactivatePromises: any = [];
@@ -138,9 +144,15 @@ export async function run(step: Step, context: DeploymentContext) {
           const newStatus =
             args.status === "cancelled" ? "inactive" : args.status;
 
-          const deployments = args.deploymentID.split(",");
+          let deployments;
 
-          const isMulti = deployments.length > 1;
+          const isMulti = args.deploymentID.split(",").length > 1;
+
+          if (isMulti) {
+            deployments = JSON.parse(args.deploymentID);
+          } else {
+            deployments = [args.deploymentID];
+          }
 
           const promises: any = [];
 
@@ -188,7 +200,15 @@ export async function run(step: Step, context: DeploymentContext) {
             console.log(`'${step}' arguments`, args);
           }
 
-          const environments = args.environment.split(",");
+          let environments;
+
+          const isMulti = args.environment.split(",").length > 1;
+
+          if (isMulti) {
+            environments = JSON.parse(args.environment);
+          } else {
+            environments = [args.environment];
+          }
 
           const promises: any = [];
 
