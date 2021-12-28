@@ -118,7 +118,12 @@ export async function run(step: Step, context: DeploymentContext) {
           if (
             args.status !== "success" &&
             args.status !== "failure" &&
-            args.status !== "cancelled"
+            args.status !== "cancelled" &&
+            args.status !== "error" &&
+            args.status !== "inactive" &&
+            args.status !== "in_progress" &&
+            args.status !== "queued" &&
+            args.status !== "pending"
           ) {
             error(`unexpected status ${args.status}`);
             return;
@@ -203,7 +208,7 @@ export async function run(step: Step, context: DeploymentContext) {
       default:
         setFailed(`unknown step type ${step}`);
     }
-  } catch (error: any) {
-    setFailed(`unexpected error encountered: ${error.message}`);
+  } catch (error) {
+    setFailed(`unexpected error encountered: ${error}`);
   }
 }
