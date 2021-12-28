@@ -108,7 +108,7 @@ export async function run(step: Step, context: DeploymentContext) {
             ...context.coreArgs,
             status: getInput("status", { required: true }).toLowerCase(),
             deploymentID: getInput("deployment_id", { required: true }),
-            envURL: getInput("env_url", { required: false })
+            envURL: getInput("env_url", { required: false }),
           };
 
           if (args.logArgs) {
@@ -137,7 +137,6 @@ export async function run(step: Step, context: DeploymentContext) {
 
           const newStatus =
             args.status === "cancelled" ? "inactive" : args.status;
-
 
           const deployments = args.deploymentID.split(",");
 
