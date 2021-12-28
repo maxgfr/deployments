@@ -20,20 +20,15 @@ export async function run(step: Step, context: DeploymentContext) {
             noOverride: getInput("no_override") !== "false",
             transient: getInput("transient") === "true",
             gitRef: getInput("ref") || context.ref,
-            isMulti: getInput("is_multi", { required: false }) === "true",
           };
 
           if (args.logArgs) {
             console.log(`'${step}' arguments`, args);
           }
 
-          let environments;
+          const environments = args.environment.split(",");
 
-          if (args.isMulti) {
-            environments = JSON.parse(args.environment);
-          } else {
-            environments = [args.environment];
-          }
+          const isMulti = environments.length > 1;
 
           const promises: any = [];
           const deactivatePromises: any = [];
@@ -91,7 +86,7 @@ export async function run(step: Step, context: DeploymentContext) {
             await Promise.all(secondPromises);
             setOutput(
               "deployment_id",
-              args.isMulti
+              isMulti
                 ? JSON.stringify(
                     deploymentsData.map((deployment: any, index: number) => ({
                       ...deployment,
@@ -113,8 +108,7 @@ export async function run(step: Step, context: DeploymentContext) {
             ...context.coreArgs,
             status: getInput("status", { required: true }).toLowerCase(),
             deploymentID: getInput("deployment_id", { required: true }),
-            envURL: getInput("env_url", { required: false }),
-            isMulti: getInput("is_multi", { required: false }) === "true",
+            envURL: getInput("env_url", { required: false })
           };
 
           if (args.logArgs) {
@@ -139,13 +133,10 @@ export async function run(step: Step, context: DeploymentContext) {
           const newStatus =
             args.status === "cancelled" ? "inactive" : args.status;
 
-          let deployments;
 
-          if (args.isMulti) {
-            deployments = JSON.parse(args.deploymentID);
-          } else {
-            deployments = [args.deploymentID];
-          }
+          const deployments = args.deploymentID.split(",");
+
+          const isMulti = deployments.length > 1;
 
           const promises: any = [];
 
@@ -154,14 +145,14 @@ export async function run(step: Step, context: DeploymentContext) {
               github.rest.repos.createDeploymentStatus({
                 owner: context.owner,
                 repo: context.repo,
-                deployment_id: args.isMulti
+                deployment_id: isMulti
                   ? parseInt(deployment.data.id, 10)
                   : parseInt(deployment, 10),
                 auto_inactive: args.autoInactive,
                 state: newStatus,
                 description: args.description,
                 environment_url:
-                  newStatus === "success" && args.isMulti
+                  newStatus === "success" && isMulti
                     ? `${deployment.url}`
                     : newStatus === "success"
                     ? args.envURL
@@ -187,19 +178,13 @@ export async function run(step: Step, context: DeploymentContext) {
           const args = {
             ...context.coreArgs,
             environment: getInput("env", { required: false }),
-            isMulti: getInput("is_multi", { required: false }) === "true",
           };
 
           if (args.logArgs) {
             console.log(`'${step}' arguments`, args);
           }
 
-          let environments;
-          if (args.isMulti) {
-            environments = JSON.parse(args.environment);
-          } else {
-            environments = [args.environment];
-          }
+          const environments = args.environment.split(",");
 
           const promises: any = [];
 

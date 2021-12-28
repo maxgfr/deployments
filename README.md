@@ -74,7 +74,6 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 | `no_override`   | `true`                      | toggle whether to mark existing deployments of this environment as inactive                         |
 | `deployment_id` |                             | Use an existing deployment instead of creating a new one (e.g. `${{ github.event.deployment.id }}`) |
 | `ref`           | `github.ref`                | Specify a particular git ref to use, (e.g. `${{ github.head_ref }}`)                                |
-| `is_multi`      | `false`                     | It defines if it is a multi url deployment or not                                                   |
 
 The following [`outputs`](https://help.github.com/en/actions/automating-your-workflow-with-github-actions/contexts-and-expression-syntax-for-github-actions#steps-context) are available:
 
@@ -160,7 +159,6 @@ The following [`inputs`](https://help.github.com/en/articles/workflow-syntax-for
 | `status`        |                             | provide the current deployment job status `${{ job.status }}`                                                                                                                      |
 | `deployment_id` |                             | identifier for deployment to update (see outputs of [`step: start`](#step-start))                                                                                                  |
 | `env_url`       |                             | URL to view deployed environment                                                                                                                                                   |
-| `is_multi`      | `false`                     | It defines if it is a multi url deployment or not                                                                                                                                  |
 
 <details>
 <summary>Simple Example</summary>
